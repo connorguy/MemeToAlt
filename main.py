@@ -1,8 +1,8 @@
 import logging
 
-# from PIL import Image
 import easyocr
 from fastai.vision.all import *
+import streamlit as st
 
 import nlp_helper
 
@@ -31,9 +31,13 @@ def extract_text_from_img(path_string: str):
     log.info("Extracted text:: %s" % (extracted_text))
     return extracted_text
 
+def get_image_from_url(url: str):
+    print()
 
 if __name__ == '__main__':
     path_string = '/Users/connorguy/Desktop/test_memes/meme2.png'
+
+    img_url = st.text_input('URL of Meme?')
 
     extracted_text = extract_text_from_img(path_string)
 
@@ -43,13 +47,9 @@ if __name__ == '__main__':
     content = " ".join(nlp_helper.clean_text(extracted_text))
 
     pred, pred_idx, probs = learn_inf.predict(path_string)
-    log.info(f'Prediction: {pred}; Probability: {probs[pred_idx]:.04f}')
-
-    # load dataframe from csv, this has the references to all the trained memes.
-    # meme_df = pd.read_csv('memes_df.csv')
-    # meme_df['index_name'] = meme_df['name'].apply(lambda x: x.lower().replace(" ", "_"))
+    # log.info(f'Prediction: {pred}; Probability: {probs[pred_idx]:.04f}')
 
     row = meme_df.loc[meme_df['index_name'] == pred]
     meme_name = row['name']
 
-    print(f'Probability: {probs[pred_idx]:.03f} ' + meme_name.values[0] + " meme: " + content)
+    log.info(f'Probability: {probs[pred_idx]:.03f} ' + meme_name.values[0] + " meme: " + content)

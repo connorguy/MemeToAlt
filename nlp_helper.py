@@ -20,12 +20,13 @@ nltk.download('wordnet')
 nltk.download('omw-1.4')
 
 # If an error for this happens you likely need to run 'python3 -m spacy download en_core_web_<lg/sm>'
-# nlp = spacy.load("en_core_web_lg")  # ~700mb model
-nlp = spacy.load("en_core_web_sm")  # ~10mb model
+nlp = spacy.load("en_core_web_lg")  # ~700mb model
+# nlp = spacy.load("en_core_web_sm")  # ~10mb model
 
 REMOVE_PUNCTUATION = True  # Changing this can create different results in remove_uncorrelated_text
-REMOVE_UNCORRELATED_WORDS = True
+REMOVE_UNCORRELATED_WORDS = False
 REMOVE_NON_ENGLISH_WORDS = False
+UNCORRELATED_WORDS_THRESHOLD = 0.2
 
 
 def clean_text(text: []) -> []:
@@ -66,7 +67,7 @@ def remove_uncorrelated_text(input: []) -> []:
             continue
         score = nlp(t).similarity(nlp(input[0]))  # this could be better
         log.info("Score: %s :: %s" % (score, t))
-        if score > 0.4:
+        if score > UNCORRELATED_WORDS_THRESHOLD:
             cleaned_input.append(t)
     return cleaned_input
 

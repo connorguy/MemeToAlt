@@ -7,5 +7,5 @@ You can run a [Streamlit](https://docs.streamlit.io/library/get-started) ui vers
 
 Or a demo version is live [here](https://share.streamlit.io/connorguy/altmemedemo/main/main.py).
 
-## Running
+## Command Line
 Running via the command line is possible by just running `python3 main.py`. A defualt url is used in this case and can be changed via the `demo_meme` var.

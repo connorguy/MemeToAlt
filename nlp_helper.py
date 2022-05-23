@@ -78,9 +78,8 @@ if __name__ == '__main__':
     text_input.append("ALIENS")
     text_input.append("H")
     text_input.append("Inedeneialog_Ial")
-    # text_input.append("history channel logo 2020")
-    # remove_uncorrelated_text(text_input)
+    text_input.append("history channel logo 2020")
 
     print("Iitial:: ", text_input)
     out = clean_text(text_input)
-    print("FINAL:: ",out)
+    print("FINAL:: ", out)

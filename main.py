@@ -28,8 +28,8 @@ def extract_text_from_img(path_string: str):
     extracted_text = []
     # Extract text from meme
     reader = easyocr.Reader(['en'])
-    result = reader.readtext(path_string, paragraph=PARAGRAPH_OCR, decoder='wordbeamsearch', detail=0)
-    extracted_text = [x.lower() for x in result]  # [x[1] for x in result] if PARAGRAPH_OCR else [x[0] for x in result]
+    result = reader.readtext(path_string, paragraph=PARAGRAPH_OCR, decoder='beamsearch', detail=0)
+    extracted_text = [x.lower() for x in result]
     log.info("Extracted text:: %s" % (extracted_text))
     return extracted_text
 
@@ -37,16 +37,14 @@ def get_image_from_url(url: str):
     print()
 
 if __name__ == '__main__':
-    # path_string = '/Users/connorguy/Desktop/test_memes/meme2.png'
     path_string = 'tmp_img'
     if os.path.exists(path_string):
         os.remove(path_string)
 
 
-    img_url = st.text_input('URL of Meme?')
+    img_url = st.text_input('URL of Meme?', value='https://www.bloomfieldknoble.com/wp-content/uploads/2019/03/Buzz-300x227.png')
     request.urlretrieve(img_url, 'tmp_img')
     img = Image.open('tmp_img')
-
 
 
     extracted_text = extract_text_from_img(path_string)
@@ -57,7 +55,6 @@ if __name__ == '__main__':
     content = ", ".join(nlp_helper.clean_text(extracted_text))
 
     pred, pred_idx, probs = learn_inf.predict(path_string)
-    # log.info(f'Prediction: {pred}; Probability: {probs[pred_idx]:.04f}')
 
     row = meme_df.loc[meme_df['index_name'] == pred]
     meme_name = row['name']
